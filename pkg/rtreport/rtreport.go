@@ -27,20 +27,18 @@ const (
 	ConnectionReportKeyUsedConn    = "PLAINCONN"
 	ConnectionReportKeyIdleConn    = "IDLECONN"
 	ConnectionReportKeyUsedConnSsl = "SSLCONN"
-	RequestReportKeyProcessing = "REQ_PROCESSING"
-	RequestReportKeyReqTotal = "TOT_REQS"
-	RequestReportKeyPubCacheHits = "TOTAL_PUB_CACHE_HITS"
-	RequestReportKeyPteCacheHits = "TOTAL_PRIVATE_CACHE_HITS"
-	RequestReportKeyStaticHits = "TOTAL_STATIC_HITS"
-	ExtAppKeyMaxConn = "CMAXCONN"
-	ExtAppKeyEffectiveMaxConn = "EMAXCONN"
-	ExtAppKeyPoolSize = "POOL_SIZE"
-	ExtAppKeyInUseConn = "INUSE_CONN"
-	ExtAppKeyIdleConn = "IDLE_CONN"
-	ExtAppKeyWaitQueue = "WAITQUE_DEPTH"
-	ExtAppKeyReqTotal = "TOT_REQS"
-
-
+	RequestReportKeyProcessing     = "REQ_PROCESSING"
+	RequestReportKeyReqTotal       = "TOT_REQS"
+	RequestReportKeyPubCacheHits   = "TOTAL_PUB_CACHE_HITS"
+	RequestReportKeyPteCacheHits   = "TOTAL_PRIVATE_CACHE_HITS"
+	RequestReportKeyStaticHits     = "TOTAL_STATIC_HITS"
+	ExtAppKeyMaxConn               = "CMAXCONN"
+	ExtAppKeyEffectiveMaxConn      = "EMAXCONN"
+	ExtAppKeyPoolSize              = "POOL_SIZE"
+	ExtAppKeyInUseConn             = "INUSE_CONN"
+	ExtAppKeyIdleConn              = "IDLE_CONN"
+	ExtAppKeyWaitQueue             = "WAITQUE_DEPTH"
+	ExtAppKeyReqTotal              = "TOT_REQS"
 )
 
 // LiteSpeedReport

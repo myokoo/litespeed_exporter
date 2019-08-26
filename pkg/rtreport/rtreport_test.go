@@ -110,8 +110,8 @@ func Test_load(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := load(tt.args);
-			if !cmp.Equal(got,tt.want,cmp.AllowUnexported(LiteSpeedReport{})){
+			got := load(tt.args)
+			if !cmp.Equal(got, tt.want, cmp.AllowUnexported(LiteSpeedReport{})) {
 				t.Errorf("load() = %v, want %v", *got, *tt.want)
 			}
 		})
@@ -153,7 +153,7 @@ func TestNew(t *testing.T) {
 				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !cmp.Equal(got,tt.want,cmp.AllowUnexported(LiteSpeedReport{})) {
+			if !cmp.Equal(got, tt.want, cmp.AllowUnexported(LiteSpeedReport{})) {
 				t.Errorf("New() got = %v, want %v", got, tt.want)
 			}
 		})
