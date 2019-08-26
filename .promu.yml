@@ -1,0 +1,19 @@
+repository:
+    path: github.com/myokoo/litespeed_exporter
+build:
+    flags: -a -tags netgo
+    ldflags: |
+        -X {{repoPath}}/version.Version={{.Version}}
+        -X {{repoPath}}/version.Revision={{.Revision}}
+        -X {{repoPath}}/version.Branch={{.Branch}}
+        -X {{repoPath}}/version.BuildUser={{user}}@{{host}}
+        -X {{repoPath}}/version.BuildDate={{date "20060102-15:04:05"}}
+tarball:
+    files:
+        - LICENSE
+
+crossbuild:
+    platforms:
+        - linux/amd64
+        - darwin/amd64
+        - linux/arm64
