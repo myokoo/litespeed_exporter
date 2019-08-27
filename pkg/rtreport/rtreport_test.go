@@ -22,7 +22,7 @@ func Test_sum(t *testing.T) {
 			args: args{
 				a: &LiteSpeedReport{
 					Uptime:           123,
-					Version:          5.4,
+					Version:          "5.4",
 					NetworkReport:    map[string]float64{"BPS_IN": 123, "BPS_OUT": 713819, "SSL_BPS_IN": 136, "SSL_BPS_OUT": 891290},
 					ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 2331, "AVAILCONN": 7669, "IDLECONN": 0, "SSLCONN": 5, "AVAILSSL": 4995},
 					RequestReports: map[string]map[string]float64{
@@ -39,7 +39,7 @@ func Test_sum(t *testing.T) {
 				},
 				b: &LiteSpeedReport{
 					Uptime:           123,
-					Version:          5.4,
+					Version:          "5.4",
 					NetworkReport:    map[string]float64{"BPS_IN": 21213, "BPS_OUT": 343819, "SSL_BPS_IN": 123363, "SSL_BPS_OUT": 913290},
 					ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 1000, "AVAILCONN": 9000, "IDLECONN": 1, "SSLCONN": 100, "AVAILSSL": 4900},
 					RequestReports: map[string]map[string]float64{
@@ -56,7 +56,7 @@ func Test_sum(t *testing.T) {
 			},
 			want: &LiteSpeedReport{
 				Uptime:           123,
-				Version:          5.4,
+				Version:          "5.4",
 				NetworkReport:    map[string]float64{"BPS_IN": 21336, "BPS_OUT": 1057638, "SSL_BPS_IN": 123499, "SSL_BPS_OUT": 1804580},
 				ConnectionReport: map[string]float64{"MAXCONN": 20000, "MAXSSL_CONN": 10000, "PLAINCONN": 3331, "AVAILCONN": 16669, "IDLECONN": 1, "SSLCONN": 105, "AVAILSSL": 9895},
 				RequestReports: map[string]map[string]float64{
@@ -94,7 +94,7 @@ func Test_load(t *testing.T) {
 			name: "ok",
 			args: "../test/data/load/.rtreport",
 			want: &LiteSpeedReport{
-				Version:          5.4,
+				Version:          "5.4",
 				Uptime:           56070,
 				NetworkReport:    map[string]float64{"BPS_IN": 1, "BPS_OUT": 2, "SSL_BPS_IN": 3, "SSL_BPS_OUT": 4},
 				ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 0, "AVAILCONN": 10000, "IDLECONN": 0, "SSLCONN": 0, "AVAILSSL": 5000},
@@ -129,7 +129,7 @@ func TestNew(t *testing.T) {
 			name: "ok",
 			args: "../test/data/new",
 			want: &LiteSpeedReport{
-				Version:          5.4,
+				Version:          "5.4",
 				Uptime:           56070,
 				NetworkReport:    map[string]float64{"BPS_IN": 2, "BPS_OUT": 4, "SSL_BPS_IN": 6, "SSL_BPS_OUT": 8},
 				ConnectionReport: map[string]float64{"MAXCONN": 20000, "MAXSSL_CONN": 10000, "PLAINCONN": 0, "AVAILCONN": 20000, "IDLECONN": 0, "SSLCONN": 0, "AVAILSSL": 10000},

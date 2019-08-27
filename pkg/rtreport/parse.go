@@ -34,7 +34,7 @@ func NewLineParser(lineTxt string) LineParser {
 
 type versionLine string
 
-// VERSION: LiteSpeed Web Server/Enterprise/x.x
+// VERSION: LiteSpeed Web Server/Enterprise/x.x.x to x.x.x
 func (v versionLine) parse(report *LiteSpeedReport) {
 	lineText := string(v)
 	if len(lineText) < 10 {
@@ -42,7 +42,7 @@ func (v versionLine) parse(report *LiteSpeedReport) {
 		return
 	}
 	s := strings.Split(lineText, "/")
-	report.Version, report.error = strconv.ParseFloat(s[len(s)-1], 64)
+	report.Version = s[len(s)-1]
 }
 
 type uptimeLine string
