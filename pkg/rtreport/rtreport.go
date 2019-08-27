@@ -44,7 +44,7 @@ const (
 // LiteSpeedReport
 type LiteSpeedReport struct {
 	error            error
-	Version          float64
+	Version          string
 	Uptime           float64
 	NetworkReport    map[string]float64
 	ConnectionReport map[string]float64

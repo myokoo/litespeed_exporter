@@ -67,21 +67,21 @@ func Test_versionLine_parse(t *testing.T) {
 		name    string
 		v       versionLine
 		args    LiteSpeedReport
-		want    float64
+		want    string
 		wantErr bool
 	}{
 		{
 			name:    "ok",
-			v:       versionLine("VERSION: LiteSpeed Web Server/Enterprise/5.8"),
+			v:       versionLine("VERSION: LiteSpeed Web Server/Enterprise/5.8.1"),
 			args:    LiteSpeedReport{},
-			want:    5.8,
+			want:    "5.8.1",
 			wantErr: false,
 		},
 		{
 			name:    "ng",
 			v:       versionLine("5.8"),
 			args:    LiteSpeedReport{},
-			want:    0,
+			want:    "",
 			wantErr: true,
 		},
 	}
