@@ -31,10 +31,6 @@ var (
 		"lsws.report-path",
 		"Path under which to exist lsws real-time statistics report.",
 	).Default(rtreport.DefaultReportPath).String()
-	insecure = kingpin.Flag(
-		"insecure",
-		"Ignore server certificate if using https.",
-	).Default("false").Bool()
 
 	extAppLabels = []string{"type", "vhost", "extapp_name"}
 	vhostLabel   = []string{"vhost"}
@@ -247,7 +243,7 @@ func (e *Exporter) networkCollect(ch chan<- prometheus.Metric, report *rtreport.
 			e.networkThroughput.WithLabelValues("https", "out").Set(value)
 		}
 	}
-	
+
 	e.networkThroughput.Collect(ch)
 }
 
