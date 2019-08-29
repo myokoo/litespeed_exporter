@@ -31,10 +31,6 @@ var (
 		"lsws.report-path",
 		"Path under which to exist lsws real-time statistics report.",
 	).Default(rtreport.DefaultReportPath).String()
-	insecure = kingpin.Flag(
-		"insecure",
-		"Ignore server certificate if using https.",
-	).Default("false").Bool()
 
 	extAppLabels = []string{"type", "vhost", "extapp_name"}
 	vhostLabel   = []string{"vhost"}
@@ -233,6 +229,8 @@ func (e *Exporter) Describe(ch chan<- *prometheus.Desc) {
 }
 
 func (e *Exporter) networkCollect(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedReport) {
+	e.networkThroughput.Reset()
+
 	for key, value := range report.NetworkReport {
 		switch key {
 		case rtreport.NetworkReportKeyBpsIn:
@@ -245,10 +243,14 @@ func (e *Exporter) networkCollect(ch chan<- prometheus.Metric, report *rtreport.
 			e.networkThroughput.WithLabelValues("https", "out").Set(value)
 		}
 	}
+
 	e.networkThroughput.Collect(ch)
 }
 
 func (e *Exporter) connectionCollect(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedReport) {
+	e.serverConnectionsMax.Reset()
+	e.serverConnectionsUsed.Reset()
+
 	for key, value := range report.ConnectionReport {
 		switch key {
 		case rtreport.ConnectionReportKeyMaxConn:
@@ -263,12 +265,19 @@ func (e *Exporter) connectionCollect(ch chan<- prometheus.Metric, report *rtrepo
 			e.serverConnectionsUsed.WithLabelValues("https").Set(value)
 		}
 	}
+
 	e.serverConnectionsMax.Collect(ch)
 	e.serverConnectionsUsed.Collect(ch)
 	e.serverConnectionsIdle.Collect(ch)
 }
 
 func (e *Exporter) vhostCollect(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedReport) {
+	e.vhostRunningProcesses.Reset()
+	e.vhostRequestsTotal.Reset()
+	e.vhostStaticHitsTotal.Reset()
+	e.vhostPublicCacheHitsTotal.Reset()
+	e.vhostPrivateCacheHitsTotal.Reset()
+
 	for vhost, m := range report.RequestReports {
 		for key, value := range m {
 			switch key {
@@ -285,6 +294,7 @@ func (e *Exporter) vhostCollect(ch chan<- prometheus.Metric, report *rtreport.Li
 			}
 		}
 	}
+
 	e.vhostRunningProcesses.Collect(ch)
 	e.vhostRequestsTotal.Collect(ch)
 	e.vhostStaticHitsTotal.Collect(ch)
@@ -293,6 +303,14 @@ func (e *Exporter) vhostCollect(ch chan<- prometheus.Metric, report *rtreport.Li
 }
 
 func (e *Exporter) extAppCollect(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedReport) {
+	e.extAppMaxConnections.Reset()
+	e.extAppEffectiveMaxConnections.Reset()
+	e.extAppPoolSize.Reset()
+	e.extAppConnectionUsed.Reset()
+	e.extAppConnectionIdle.Reset()
+	e.extAppConnectionWaitQueue.Reset()
+	e.extAppRequestsTotal.Reset()
+
 	for typeName, m := range report.ExtAppReports {
 		for vhost, m2 := range m {
 			for extAppName, m3 := range m2 {
@@ -317,6 +335,7 @@ func (e *Exporter) extAppCollect(ch chan<- prometheus.Metric, report *rtreport.L
 			}
 		}
 	}
+
 	e.extAppMaxConnections.Collect(ch)
 	e.extAppEffectiveMaxConnections.Collect(ch)
 	e.extAppPoolSize.Collect(ch)
