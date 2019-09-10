@@ -11,7 +11,7 @@ func main() {
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 	}
-	fmt.Printf("Version: %.1f\n", v.Version)
+	fmt.Printf("Version: %.1s\n", v.Version)
 	fmt.Printf("Uptime: %.0f\n", v.Uptime)
 	fmt.Println("ConnectionReport:")
 	for key, value := range v.ConnectionReport {
