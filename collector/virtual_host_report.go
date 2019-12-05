@@ -23,6 +23,12 @@ func (v virtualHost) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSp
 					"The number of running process by vhost.",
 					vhostLabels, prometheus.GaugeValue, value, vhost,
 				)
+			case rtreport.VhostReportKeyReqPerSec:
+				ch <- newMetric(
+					namespace, vName, "requests_per_sec",
+					"The total requests per sec by vhost.",
+					vhostLabels, prometheus.GaugeValue, value, vhost,
+				)
 			case rtreport.VHostReportKeyReqTotal:
 				ch <- newMetric(
 					namespace, vName, "requests_total",

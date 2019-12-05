@@ -1,3 +1,8 @@
+## 0.1.4 / 2019-11-05
+### Add
+- add 'litespeed_virtual_host_requests_per_sec' metrics
+- add 'litespeed_external_applicationt_requests_per_sec' metrics
+
 ## 0.1.3 / 2019-11-05
 ### Change
 - refact code
