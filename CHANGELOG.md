@@ -1,3 +1,7 @@
+## 0.1.3 / 2019-11-05
+### Change
+- refact code
+
 ## 0.1.2 / 2019-08-29
 ### Fixed
 - fix the problem that old metrics data remains

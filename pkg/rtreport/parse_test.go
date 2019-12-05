@@ -37,7 +37,7 @@ func TestNewLineParser(t *testing.T) {
 			name: "ok_requestLine",
 			args: "REQ_RATE [hoge.com]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 152, PUB_CACHE_HITS_PER_SEC: 0.0, TOTAL_PUB_CACHE_HITS: 0, " +
 				"PRIVATE_CACHE_HITS_PER_SEC: 0.0, TOTAL_PRIVATE_CACHE_HITS: 0, STATIC_HITS_PER_SEC: 0.0, TOTAL_STATIC_HITS: 47",
-			want: requestLine("REQ_RATE [hoge.com]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 152, PUB_CACHE_HITS_PER_SEC: 0.0, " +
+			want: virtualHostLine("REQ_RATE [hoge.com]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 152, PUB_CACHE_HITS_PER_SEC: 0.0, " +
 				"TOTAL_PUB_CACHE_HITS: 0, PRIVATE_CACHE_HITS_PER_SEC: 0.0, TOTAL_PRIVATE_CACHE_HITS: 0, STATIC_HITS_PER_SEC: 0.0, TOTAL_STATIC_HITS: 47"),
 		},
 		{
@@ -255,18 +255,18 @@ func Test_ignoreLine_parse(t *testing.T) {
 func Test_requestLine_parse(t *testing.T) {
 	tests := []struct {
 		name    string
-		r       requestLine
+		r       virtualHostLine
 		args    LiteSpeedReport
 		want    LiteSpeedReport
 		wantErr bool
 	}{
 		{
 			name: "ok_vhost",
-			r: requestLine("REQ_RATE [hoge.jp]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3, " +
+			r: virtualHostLine("REQ_RATE [hoge.jp]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3, " +
 				"PRIVATE_CACHE_HITS_PER_SEC: 0.3, TOTAL_PRIVATE_CACHE_HITS: 4, STATIC_HITS_PER_SEC: 0.4, TOTAL_STATIC_HITS: 5"),
 			args: LiteSpeedReport{},
 			want: LiteSpeedReport{
-				RequestReports: map[string]map[string]float64{
+				VirtualHostReport: map[string]map[string]float64{
 					"hoge.jp": {
 						"REQ_PROCESSING":             1,
 						"REQ_PER_SEC":                0.1,
@@ -284,11 +284,11 @@ func Test_requestLine_parse(t *testing.T) {
 		},
 		{
 			name: "ok_Server",
-			r: requestLine("REQ_RATE []: REQ_PROCESSING: 2, REQ_PER_SEC: 0.3, TOT_REQS: 5, PUB_CACHE_HITS_PER_SEC: 0.6, TOTAL_PUB_CACHE_HITS: 3, " +
+			r: virtualHostLine("REQ_RATE []: REQ_PROCESSING: 2, REQ_PER_SEC: 0.3, TOT_REQS: 5, PUB_CACHE_HITS_PER_SEC: 0.6, TOTAL_PUB_CACHE_HITS: 3, " +
 				"PRIVATE_CACHE_HITS_PER_SEC: 0.3, TOTAL_PRIVATE_CACHE_HITS: 4, STATIC_HITS_PER_SEC: 0.4, TOTAL_STATIC_HITS: 5"),
 			args: LiteSpeedReport{},
 			want: LiteSpeedReport{
-				RequestReports: map[string]map[string]float64{
+				VirtualHostReport: map[string]map[string]float64{
 					"Server": {
 						"REQ_PROCESSING":             2,
 						"REQ_PER_SEC":                0.3,
@@ -306,7 +306,7 @@ func Test_requestLine_parse(t *testing.T) {
 		},
 		{
 			name:    "ng",
-			r:       requestLine("REQ_RATE [hoge.:jp]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3"),
+			r:       virtualHostLine("REQ_RATE [hoge.:jp]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3"),
 			args:    LiteSpeedReport{},
 			want:    LiteSpeedReport{},
 			wantErr: true,
@@ -314,13 +314,13 @@ func Test_requestLine_parse(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.args.RequestReports = make(map[string]map[string]float64)
+			tt.args.VirtualHostReport = make(map[string]map[string]float64)
 			tt.r.parse(&tt.args)
 			if (tt.args.error != nil) != tt.wantErr {
-				t.Errorf("(requestLine)parse() error = %v, wantErr %v", tt.args.error, tt.wantErr)
+				t.Errorf("(virtualHostLine)parse() error = %v, wantErr %v", tt.args.error, tt.wantErr)
 			}
-			if !tt.wantErr && !cmp.Equal(tt.args.RequestReports, tt.want.RequestReports) {
-				t.Errorf("(requestLine)parse() does not match. got = %v, want = %v", tt.args.RequestReports, tt.want.RequestReports)
+			if !tt.wantErr && !cmp.Equal(tt.args.VirtualHostReport, tt.want.VirtualHostReport) {
+				t.Errorf("(virtualHostLine)parse() does not match. got = %v, want = %v", tt.args.VirtualHostReport, tt.want.VirtualHostReport)
 			}
 		})
 	}

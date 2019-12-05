@@ -27,11 +27,11 @@ const (
 	ConnectionReportKeyUsedConn    = "PLAINCONN"
 	ConnectionReportKeyIdleConn    = "IDLECONN"
 	ConnectionReportKeyUsedConnSsl = "SSLCONN"
-	RequestReportKeyProcessing     = "REQ_PROCESSING"
-	RequestReportKeyReqTotal       = "TOT_REQS"
-	RequestReportKeyPubCacheHits   = "TOTAL_PUB_CACHE_HITS"
-	RequestReportKeyPteCacheHits   = "TOTAL_PRIVATE_CACHE_HITS"
-	RequestReportKeyStaticHits     = "TOTAL_STATIC_HITS"
+	VHostReportKeyProcessing       = "REQ_PROCESSING"
+	VHostReportKeyReqTotal         = "TOT_REQS"
+	VHostReportKeyPubCacheHits     = "TOTAL_PUB_CACHE_HITS"
+	VHostReportKeyPteCacheHits     = "TOTAL_PRIVATE_CACHE_HITS"
+	VHostReportKeyStaticHits       = "TOTAL_STATIC_HITS"
 	ExtAppKeyMaxConn               = "CMAXCONN"
 	ExtAppKeyEffectiveMaxConn      = "EMAXCONN"
 	ExtAppKeyPoolSize              = "POOL_SIZE"
@@ -43,13 +43,13 @@ const (
 
 // LiteSpeedReport
 type LiteSpeedReport struct {
-	error            error
-	Version          string
-	Uptime           float64
-	NetworkReport    map[string]float64
-	ConnectionReport map[string]float64
-	RequestReports   map[string]map[string]float64
-	ExtAppReports    map[string]map[string]map[string]map[string]float64
+	error             error
+	Version           string
+	Uptime            float64
+	NetworkReport     map[string]float64
+	ConnectionReport  map[string]float64
+	VirtualHostReport map[string]map[string]float64
+	ExtAppReports     map[string]map[string]map[string]map[string]float64
 }
 
 // New return a new instance of real time report and error.
@@ -109,10 +109,10 @@ func load(filePath string) *LiteSpeedReport {
 	defer fp.Close()
 
 	v := &LiteSpeedReport{
-		NetworkReport:    make(map[string]float64),
-		ConnectionReport: make(map[string]float64),
-		RequestReports:   make(map[string]map[string]float64),
-		ExtAppReports:    make(map[string]map[string]map[string]map[string]float64),
+		NetworkReport:     make(map[string]float64),
+		ConnectionReport:  make(map[string]float64),
+		VirtualHostReport: make(map[string]map[string]float64),
+		ExtAppReports:     make(map[string]map[string]map[string]map[string]float64),
 	}
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
@@ -157,7 +157,7 @@ func sum(a, b *LiteSpeedReport) *LiteSpeedReport {
 	// merge map value.
 	margeSingleMap(a.NetworkReport, b.NetworkReport)
 	margeSingleMap(a.ConnectionReport, b.ConnectionReport)
-	margeDoubleMap(a.RequestReports, b.RequestReports)
+	margeDoubleMap(a.VirtualHostReport, b.VirtualHostReport)
 	margeQuadrupleMap(a.ExtAppReports, b.ExtAppReports)
 	return a
 }

@@ -11,16 +11,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GO    := GO15VENDOREXPERIMENT=1 go
-PROMU := $(GOPATH)/bin/promu
-pkgs   = $(shell $(GO) list ./... | grep -v /vendor/)
+GO    := GO111MODULE=on go
+PROMU := GO111MODULE=on $(GOPATH)/bin/promu
+pkgs   = $(shell $(GO) list ./...)
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
 DOCKER_IMAGE_NAME       ?= litespeed-exporter
 DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
-all: format build test
+all: format build release test
 
 test:
 	@echo ">> running tests"
@@ -38,6 +38,21 @@ vet:
 	@echo ">> vetting code"
 	@$(GO) vet $(pkgs)
 
+cross_build: promu
+	@echo ">> building binaries on local"
+	@$(PROMU) crossbuild
+
+cross_tarball: cross_build
+	@echo ">> delete old release tarball"
+	@rm -rf $(PREFIX)/.tarball
+	@$(PROMU) crossbuild tarballs
+
+release: cross_tarball
+	@echo ">> create checksum"
+	@$(PROMU) checksum .tarballs
+	@echo ">> release tarball and checksum"
+	@$(PROMU) release .tarballs
+
 build: promu
 	@echo ">> building binaries"
 	@$(PROMU) build --prefix $(PREFIX)
@@ -46,13 +61,9 @@ tarball: promu
 	@echo ">> building release tarball"
 	@$(PROMU) tarball --prefix $(PREFIX) $(BIN_DIR)
 
-docker:
-	@echo ">> building docker image"
-	@docker build -t "$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)" .
-
 promu:
 	@GOOS=$(shell uname -s | tr A-Z a-z) \
 		GOARCH=$(subst x86_64,amd64,$(patsubst i%86,386,$(shell uname -m))) \
 		$(GO) get -u github.com/prometheus/promu
 
-.PHONY: all style format build test vet tarball docker promu
+.PHONY: all style format build cross_build cross_tarball release test vet tarball docker promu
