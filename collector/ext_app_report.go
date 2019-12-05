@@ -55,6 +55,12 @@ func (e extApp) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedRe
 							"The number of wait queues by external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
+					case rtreport.ExtAppKeyReqPerSec:
+						ch <- newMetric(
+							namespace, eName, "requests_per_sec",
+							"The total requests per sec by external application.",
+							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
+						)
 					case rtreport.ExtAppKeyReqTotal:
 						ch <- newMetric(
 							namespace, eName, "requests_total",

@@ -28,6 +28,7 @@ const (
 	ConnectionReportKeyIdleConn    = "IDLECONN"
 	ConnectionReportKeyUsedConnSsl = "SSLCONN"
 	VHostReportKeyProcessing       = "REQ_PROCESSING"
+	VhostReportKeyReqPerSec        = "REQ_PER_SEC"
 	VHostReportKeyReqTotal         = "TOT_REQS"
 	VHostReportKeyPubCacheHits     = "TOTAL_PUB_CACHE_HITS"
 	VHostReportKeyPteCacheHits     = "TOTAL_PRIVATE_CACHE_HITS"
@@ -38,6 +39,7 @@ const (
 	ExtAppKeyInUseConn             = "INUSE_CONN"
 	ExtAppKeyIdleConn              = "IDLE_CONN"
 	ExtAppKeyWaitQueue             = "WAITQUE_DEPTH"
+	ExtAppKeyReqPerSec             = "REQ_PER_SEC"
 	ExtAppKeyReqTotal              = "TOT_REQS"
 )
 
