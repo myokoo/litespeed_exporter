@@ -23,7 +23,7 @@ func NewLineParser(lineTxt string) LineParser {
 	case strings.HasPrefix(lineTxt, "MAXCONN:"):
 		v = connectionLine(lineTxt)
 	case strings.HasPrefix(lineTxt, "REQ_RATE"):
-		v = requestLine(lineTxt)
+		v = virtualHostLine(lineTxt)
 	case strings.HasPrefix(lineTxt, "EXTAPP"):
 		v = extAppLine(lineTxt)
 	default:
@@ -80,10 +80,10 @@ func (c connectionLine) parse(report *LiteSpeedReport) {
 	report.ConnectionReport, report.error = convertStringToMap(string(c))
 }
 
-type requestLine string
+type virtualHostLine string
 
 // parse REQ_RATE [xxxx]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 152, PUB_CACHE_HITS_PER_SEC: 0.0, TOTAL_PUB_CACHE_HITS: 0, PRIVATE_CACHE_HITS_PER_SEC: 0.0, TOTAL_PRIVATE_CACHE_HITS: 0, STATIC_HITS_PER_SEC: 0.0, TOTAL_STATIC_HITS: 47
-func (r requestLine) parse(report *LiteSpeedReport) {
+func (r virtualHostLine) parse(report *LiteSpeedReport) {
 	lineText := string(r)
 
 	// pick up vhostName
@@ -98,7 +98,7 @@ func (r requestLine) parse(report *LiteSpeedReport) {
 	}
 
 	i := strings.Index(lineText, ":")
-	report.RequestReports[vhName], report.error = convertStringToMap(lineText[i+1:])
+	report.VirtualHostReport[vhName], report.error = convertStringToMap(lineText[i+1:])
 }
 
 type extAppLine string

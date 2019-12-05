@@ -25,7 +25,7 @@ func Test_sum(t *testing.T) {
 					Version:          "5.4",
 					NetworkReport:    map[string]float64{"BPS_IN": 123, "BPS_OUT": 713819, "SSL_BPS_IN": 136, "SSL_BPS_OUT": 891290},
 					ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 2331, "AVAILCONN": 7669, "IDLECONN": 0, "SSLCONN": 5, "AVAILSSL": 4995},
-					RequestReports: map[string]map[string]float64{
+					VirtualHostReport: map[string]map[string]float64{
 						"Server": {"REQ_PROCESSING": 3, "REQ_PER_SEC": 3.5, "TOT_REQS": 1533, "PUB_CACHE_HITS_PER_SEC": 0.0, "TOTAL_PUB_CACHE_HITS": 0, "PRIVATE_CACHE_HITS_PER_SEC": 1.1,
 							"TOTAL_PRIVATE_CACHE_HITS": 123, "STATIC_HITS_PER_SEC": 4.4, "TOTAL_STATIC_HITS": 49},
 						"hoge.com": {"REQ_PROCESSING": 1, "REQ_PER_SEC": 1.5, "TOT_REQS": 133, "PUB_CACHE_HITS_PER_SEC": 2.1,
@@ -42,7 +42,7 @@ func Test_sum(t *testing.T) {
 					Version:          "5.4",
 					NetworkReport:    map[string]float64{"BPS_IN": 21213, "BPS_OUT": 343819, "SSL_BPS_IN": 123363, "SSL_BPS_OUT": 913290},
 					ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 1000, "AVAILCONN": 9000, "IDLECONN": 1, "SSLCONN": 100, "AVAILSSL": 4900},
-					RequestReports: map[string]map[string]float64{
+					VirtualHostReport: map[string]map[string]float64{
 						"Server": {"REQ_PROCESSING": 5, "REQ_PER_SEC": 6.6, "TOT_REQS": 903, "PUB_CACHE_HITS_PER_SEC": 3.8, "TOTAL_PUB_CACHE_HITS": 1100, "PRIVATE_CACHE_HITS_PER_SEC": 5.3,
 							"TOTAL_PRIVATE_CACHE_HITS": 9393, "STATIC_HITS_PER_SEC": 7.9, "TOTAL_STATIC_HITS": 3939},
 					},
@@ -59,7 +59,7 @@ func Test_sum(t *testing.T) {
 				Version:          "5.4",
 				NetworkReport:    map[string]float64{"BPS_IN": 21336, "BPS_OUT": 1057638, "SSL_BPS_IN": 123499, "SSL_BPS_OUT": 1804580},
 				ConnectionReport: map[string]float64{"MAXCONN": 20000, "MAXSSL_CONN": 10000, "PLAINCONN": 3331, "AVAILCONN": 16669, "IDLECONN": 1, "SSLCONN": 105, "AVAILSSL": 9895},
-				RequestReports: map[string]map[string]float64{
+				VirtualHostReport: map[string]map[string]float64{
 					"Server": {"REQ_PROCESSING": 8, "REQ_PER_SEC": 10.1, "TOT_REQS": 2436, "PUB_CACHE_HITS_PER_SEC": 3.8, "TOTAL_PUB_CACHE_HITS": 1100, "PRIVATE_CACHE_HITS_PER_SEC": 6.4,
 						"TOTAL_PRIVATE_CACHE_HITS": 9516, "STATIC_HITS_PER_SEC": 12.3, "TOTAL_STATIC_HITS": 3988},
 					"hoge.com": {"REQ_PROCESSING": 1, "REQ_PER_SEC": 1.5, "TOT_REQS": 133, "PUB_CACHE_HITS_PER_SEC": 2.1,
@@ -98,7 +98,7 @@ func Test_load(t *testing.T) {
 				Uptime:           56070,
 				NetworkReport:    map[string]float64{"BPS_IN": 1, "BPS_OUT": 2, "SSL_BPS_IN": 3, "SSL_BPS_OUT": 4},
 				ConnectionReport: map[string]float64{"MAXCONN": 10000, "MAXSSL_CONN": 5000, "PLAINCONN": 0, "AVAILCONN": 10000, "IDLECONN": 0, "SSLCONN": 0, "AVAILSSL": 5000},
-				RequestReports: map[string]map[string]float64{
+				VirtualHostReport: map[string]map[string]float64{
 					"Server": {"REQ_PROCESSING": 0, "REQ_PER_SEC": 0.1, "TOT_REQS": 448, "PUB_CACHE_HITS_PER_SEC": 0.0, "TOTAL_PUB_CACHE_HITS": 0, "PRIVATE_CACHE_HITS_PER_SEC": 0.0,
 						"TOTAL_PRIVATE_CACHE_HITS": 0, "STATIC_HITS_PER_SEC": 0.1, "TOTAL_STATIC_HITS": 133},
 					"hoge.jp": {"REQ_PROCESSING": 3, "REQ_PER_SEC": 2.1, "TOT_REQS": 121, "PUB_CACHE_HITS_PER_SEC": 4.0,
@@ -133,7 +133,7 @@ func TestNew(t *testing.T) {
 				Uptime:           56070,
 				NetworkReport:    map[string]float64{"BPS_IN": 2, "BPS_OUT": 4, "SSL_BPS_IN": 6, "SSL_BPS_OUT": 8},
 				ConnectionReport: map[string]float64{"MAXCONN": 20000, "MAXSSL_CONN": 10000, "PLAINCONN": 0, "AVAILCONN": 20000, "IDLECONN": 0, "SSLCONN": 0, "AVAILSSL": 10000},
-				RequestReports: map[string]map[string]float64{
+				VirtualHostReport: map[string]map[string]float64{
 					"Server": {"REQ_PROCESSING": 0, "REQ_PER_SEC": 0.2, "TOT_REQS": 896, "PUB_CACHE_HITS_PER_SEC": 0.0, "TOTAL_PUB_CACHE_HITS": 0, "PRIVATE_CACHE_HITS_PER_SEC": 0.0,
 						"TOTAL_PRIVATE_CACHE_HITS": 0, "STATIC_HITS_PER_SEC": 0.2, "TOTAL_STATIC_HITS": 266},
 					"hoge.jp": {"REQ_PROCESSING": 6, "REQ_PER_SEC": 4.2, "TOT_REQS": 242, "PUB_CACHE_HITS_PER_SEC": 8.0,
