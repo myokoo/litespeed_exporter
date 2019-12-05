@@ -44,7 +44,7 @@ cross_build: promu
 
 cross_tarball: cross_build
 	@echo ">> delete old release tarball"
-	@rm -rf $(PREFIX)/.tarball
+	@rm -rf $(PREFIX)/.tarballs
 	@$(PROMU) crossbuild tarballs
 
 release: cross_tarball
