@@ -97,8 +97,8 @@ func (r virtualHostLine) parse(report *LiteSpeedReport) {
 		vhName = "Server"
 	}
 
-	i := strings.Index(lineText, ":")
-	report.VirtualHostReport[vhName], report.error = convertStringToMap(lineText[i+1:])
+	i := strings.Index(lineText, "]:")
+	report.VirtualHostReport[vhName], report.error = convertStringToMap(lineText[i+2:])
 }
 
 type extAppLine string
@@ -117,9 +117,9 @@ func (e extAppLine) parse(report *LiteSpeedReport) {
 	if vhostName == "" {
 		vhostName = "Server"
 	}
-	i := strings.Index(lineText, ":")
+	i := strings.Index(lineText, "]:")
 	var m map[string]float64
-	m, report.error = convertStringToMap(lineText[i+1:])
+	m, report.error = convertStringToMap(lineText[i+2:])
 
 	if _, exist := report.ExtAppReports[s[0]]; !exist {
 		report.ExtAppReports[s[0]] = map[string]map[string]map[string]float64{vhostName: {s[2]: m}}
