@@ -11,8 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GO    := GO111MODULE=on go
-PROMU := GO111MODULE=on $(GOPATH)/bin/promu
+GO    := go
+PROMU := $(GOPATH)/bin/promu -v
 pkgs   = $(shell $(GO) list ./...)
 
 PREFIX                  ?= $(shell pwd)
@@ -22,7 +22,7 @@ DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 all: format build release test
 
-test:
+test: vet style
 	@echo ">> running tests"
 	@$(GO) test -short $(pkgs)
 
