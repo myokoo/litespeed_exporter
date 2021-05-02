@@ -62,8 +62,7 @@ tarball: promu
 	@$(PROMU) tarball --prefix $(PREFIX) $(BIN_DIR)
 
 promu:
-	@GOOS=$(shell uname -s | tr A-Z a-z) \
-		GOARCH=$(subst x86_64,amd64,$(patsubst i%86,386,$(shell uname -m))) \
-		$(GO) get -u github.com/prometheus/promu
+	@echo ">> get promu tool"
+	$(GO) get -u github.com/prometheus/promu
 
 .PHONY: all style format build cross_build cross_tarball release test vet tarball docker promu
