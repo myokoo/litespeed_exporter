@@ -283,6 +283,28 @@ func Test_requestLine_parse(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name: "ok_vhost_and_port",
+			r: virtualHostLine("REQ_RATE [hoge.jp:80]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3, " +
+				"PRIVATE_CACHE_HITS_PER_SEC: 0.3, TOTAL_PRIVATE_CACHE_HITS: 4, STATIC_HITS_PER_SEC: 0.4, TOTAL_STATIC_HITS: 5"),
+			args: LiteSpeedReport{},
+			want: LiteSpeedReport{
+				VirtualHostReport: map[string]map[string]float64{
+					"hoge.jp:80": {
+						"REQ_PROCESSING":             1,
+						"REQ_PER_SEC":                0.1,
+						"TOT_REQS":                   2,
+						"PUB_CACHE_HITS_PER_SEC":     0.2,
+						"TOTAL_PUB_CACHE_HITS":       3,
+						"PRIVATE_CACHE_HITS_PER_SEC": 0.3,
+						"TOTAL_PRIVATE_CACHE_HITS":   4,
+						"STATIC_HITS_PER_SEC":        0.4,
+						"TOTAL_STATIC_HITS":          5,
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
 			name: "ok_Server",
 			r: virtualHostLine("REQ_RATE []: REQ_PROCESSING: 2, REQ_PER_SEC: 0.3, TOT_REQS: 5, PUB_CACHE_HITS_PER_SEC: 0.6, TOTAL_PUB_CACHE_HITS: 3, " +
 				"PRIVATE_CACHE_HITS_PER_SEC: 0.3, TOTAL_PRIVATE_CACHE_HITS: 4, STATIC_HITS_PER_SEC: 0.4, TOTAL_STATIC_HITS: 5"),
@@ -306,7 +328,7 @@ func Test_requestLine_parse(t *testing.T) {
 		},
 		{
 			name:    "ng",
-			r:       virtualHostLine("REQ_RATE [hoge.:jp]: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3"),
+			r:       virtualHostLine("REQ_RATE [hoge.jp]:: REQ_PROCESSING: 1, REQ_PER_SEC: 0.1, TOT_REQS: 2, PUB_CACHE_HITS_PER_SEC: 0.2, TOTAL_PUB_CACHE_HITS: 3"),
 			args:    LiteSpeedReport{},
 			want:    LiteSpeedReport{},
 			wantErr: true,
@@ -342,6 +364,30 @@ func Test_extAppLine_parse(t *testing.T) {
 				ExtAppReports: map[string]map[string]map[string]map[string]float64{
 					"LSAPI": {
 						"fuga.com": {
+							"fuga.com_php73": {
+								"CMAXCONN":      1,
+								"EMAXCONN":      2,
+								"POOL_SIZE":     3,
+								"INUSE_CONN":    4,
+								"IDLE_CONN":     5,
+								"WAITQUE_DEPTH": 6,
+								"REQ_PER_SEC":   0.7,
+								"TOT_REQS":      8,
+							},
+						},
+					},
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "ok_vhost_port",
+			e:    extAppLine("EXTAPP [LSAPI] [fuga.com:80] [fuga.com_php73]: CMAXCONN: 1, EMAXCONN: 2, POOL_SIZE: 3, INUSE_CONN: 4, IDLE_CONN: 5, WAITQUE_DEPTH: 6, REQ_PER_SEC: 0.7, TOT_REQS: 8"),
+			args: LiteSpeedReport{},
+			want: LiteSpeedReport{
+				ExtAppReports: map[string]map[string]map[string]map[string]float64{
+					"LSAPI": {
+						"fuga.com:80": {
 							"fuga.com_php73": {
 								"CMAXCONN":      1,
 								"EMAXCONN":      2,
@@ -419,6 +465,11 @@ func Test_pickUpStringName(t *testing.T) {
 			name: "ok_multi",
 			args: "EXTAPP [LSAPI] [hoge.com] [hoge.com_php7.3]: CMAXCONN: 1000,",
 			want: []string{"LSAPI", "hoge.com", "hoge.com_php7.3"},
+		},
+		{
+			name: "ok_vhost_and_port",
+			args: "EXTAPP [LSAPI] [hoge.com:80] [hoge.com_php7.3]: CMAXCONN: 1000,",
+			want: []string{"LSAPI", "hoge.com:80", "hoge.com_php7.3"},
 		},
 		{
 			name: "ok_trim_space",

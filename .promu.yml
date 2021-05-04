@@ -1,8 +1,6 @@
 repository:
     path: github.com/myokoo/litespeed_exporter
 build:
-    prefix: .
-    flags: -a -tags netgo -installsuffix netgo
     ldflags: |
         -X github.com/prometheus/common/version.Version={{.Version}}
         -X github.com/prometheus/common/version.Revision={{.Revision}}
@@ -12,9 +10,8 @@ build:
 tarball:
     files:
         - LICENSE
+        - README.md
 
 crossbuild:
     platforms:
-        - linux/amd64
-        - darwin/amd64
         - linux/arm64

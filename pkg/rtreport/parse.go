@@ -56,7 +56,7 @@ func (u uptimeLine) parse(report *LiteSpeedReport) {
 	}
 	v := strings.Split(lineText[8:], ":")
 	if len(v) != 3 {
-		report.error = errors.New(fmt.Sprintf("Doesn't match split count. string: %s", lineText[8:]))
+		report.error = errors.New(fmt.Sprintf("%s: Expected 3 parts after split, got %d.", lineText[8:], len(v)))
 		return
 	}
 	h, _ := strconv.ParseUint(v[0], 10, 64)
@@ -89,7 +89,7 @@ func (r virtualHostLine) parse(report *LiteSpeedReport) {
 	// pick up vhostName
 	s := pickUpStringName(lineText)
 	if len(s) < 1 {
-		report.error = errors.New(fmt.Sprintf("Cann't Parse VirtualHostName. string: %s", lineText))
+		report.error = errors.New(fmt.Sprintf("%s: Unable to parse VirtualHostName.", lineText))
 		return
 	}
 	vhName := s[0]
@@ -97,8 +97,8 @@ func (r virtualHostLine) parse(report *LiteSpeedReport) {
 		vhName = "Server"
 	}
 
-	i := strings.Index(lineText, ":")
-	report.VirtualHostReport[vhName], report.error = convertStringToMap(lineText[i+1:])
+	i := strings.Index(lineText, "]:")
+	report.VirtualHostReport[vhName], report.error = convertStringToMap(lineText[i+2:])
 }
 
 type extAppLine string
@@ -110,16 +110,16 @@ func (e extAppLine) parse(report *LiteSpeedReport) {
 	// pick up ExtAppType, vhostName, ExtAppName
 	s := pickUpStringName(lineText)
 	if len(s) < 3 {
-		report.error = errors.New(fmt.Sprintf("Cann't Parse ExtAppType, VirtualHostName, ExtAppName. string: %s", lineText))
+		report.error = errors.New(fmt.Sprintf("%s: Unable to parse ExtAppType, VirtualHostName, ExtAppName.", lineText))
 		return
 	}
 	vhostName := s[1]
 	if vhostName == "" {
 		vhostName = "Server"
 	}
-	i := strings.Index(lineText, ":")
+	i := strings.Index(lineText, "]:")
 	var m map[string]float64
-	m, report.error = convertStringToMap(lineText[i+1:])
+	m, report.error = convertStringToMap(lineText[i+2:])
 
 	if _, exist := report.ExtAppReports[s[0]]; !exist {
 		report.ExtAppReports[s[0]] = map[string]map[string]map[string]float64{vhostName: {s[2]: m}}
@@ -144,11 +144,11 @@ func convertStringToMap(lineText string) (map[string]float64, error) {
 	for _, keyValue := range keyValues {
 		s := strings.Split(keyValue, ":")
 		if len(s) < 2 {
-			return nil, errors.New(fmt.Sprintf("Cann't split key value. string: %s", keyValue))
+			return nil, errors.New(fmt.Sprintf("%s: Unable to split item to key/value.", keyValue))
 		}
 		var err error
 		if m[strings.TrimSpace(s[0])], err = strconv.ParseFloat(strings.TrimSpace(s[1]), 64); err != nil {
-			return nil, errors.New(fmt.Sprintf("Cann't convert value string to float64. string: %s", strings.TrimSpace(s[1])))
+			return nil, errors.New(fmt.Sprintf("%s: Unable to convert string to float64.", strings.TrimSpace(s[1])))
 		}
 	}
 	return m, nil
@@ -168,5 +168,5 @@ func pickUpStringName(lineText string) []string {
 
 // create parse line too short error.
 func newTooShortParseLineError(s string) error {
-	return errors.New(fmt.Sprintf("Parse line too short. string: %s", s))
+	return errors.New(fmt.Sprintf("%s: Parsed line too short.", s))
 }

@@ -11,8 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GO    := GO111MODULE=on go
-PROMU := GO111MODULE=on $(GOPATH)/bin/promu
+GO    := go
+PROMU := $(GOPATH)/bin/promu -v
 pkgs   = $(shell $(GO) list ./...)
 
 PREFIX                  ?= $(shell pwd)
@@ -22,7 +22,7 @@ DOCKER_IMAGE_TAG        ?= $(subst /,-,$(shell git rev-parse --abbrev-ref HEAD))
 
 all: format build release test
 
-test:
+test: vet style
 	@echo ">> running tests"
 	@$(GO) test -short $(pkgs)
 
@@ -62,8 +62,7 @@ tarball: promu
 	@$(PROMU) tarball --prefix $(PREFIX) $(BIN_DIR)
 
 promu:
-	@GOOS=$(shell uname -s | tr A-Z a-z) \
-		GOARCH=$(subst x86_64,amd64,$(patsubst i%86,386,$(shell uname -m))) \
-		$(GO) get -u github.com/prometheus/promu
+	@echo ">> get promu tool"
+	$(GO) get -u github.com/prometheus/promu
 
 .PHONY: all style format build cross_build cross_tarball release test vet tarball docker promu

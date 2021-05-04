@@ -157,9 +157,9 @@ func sum(a, b *LiteSpeedReport) *LiteSpeedReport {
 		return v
 	}
 	// merge map value.
-	margeSingleMap(a.NetworkReport, b.NetworkReport)
-	margeSingleMap(a.ConnectionReport, b.ConnectionReport)
-	margeDoubleMap(a.VirtualHostReport, b.VirtualHostReport)
-	margeQuadrupleMap(a.ExtAppReports, b.ExtAppReports)
+	mergeSingleMap(a.NetworkReport, b.NetworkReport)
+	mergeSingleMap(a.ConnectionReport, b.ConnectionReport)
+	mergeDoubleMap(a.VirtualHostReport, b.VirtualHostReport)
+	mergeQuadrupleMap(a.ExtAppReports, b.ExtAppReports)
 	return a
 }

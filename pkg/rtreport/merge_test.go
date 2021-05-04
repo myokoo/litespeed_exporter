@@ -6,7 +6,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func Test_margeSingleMap(t *testing.T) {
+func Test_mergeSingleMap(t *testing.T) {
 	type args struct {
 		a map[string]float64
 		b map[string]float64
@@ -27,15 +27,15 @@ func Test_margeSingleMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			margeSingleMap(tt.args.a, tt.args.b)
+			mergeSingleMap(tt.args.a, tt.args.b)
 			if !cmp.Equal(tt.args.a, tt.want) {
-				t.Errorf("margeSingleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
+				t.Errorf("mergeSingleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
 			}
 		})
 	}
 }
 
-func Test_margeDoubleMap(t *testing.T) {
+func Test_mergeDoubleMap(t *testing.T) {
 	type args struct {
 		a map[string]map[string]float64
 		b map[string]map[string]float64
@@ -66,15 +66,15 @@ func Test_margeDoubleMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			margeDoubleMap(tt.args.a, tt.args.b)
+			mergeDoubleMap(tt.args.a, tt.args.b)
 			if !cmp.Equal(tt.args.a, tt.want) {
-				t.Errorf("margeDoubleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
+				t.Errorf("mergeDoubleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
 			}
 		})
 	}
 }
 
-func Test_margeTripleMap(t *testing.T) {
+func Test_mergeTripleMap(t *testing.T) {
 	type args struct {
 		a map[string]map[string]map[string]float64
 		b map[string]map[string]map[string]float64
@@ -96,15 +96,15 @@ func Test_margeTripleMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			margeTripleMap(tt.args.a, tt.args.b)
+			mergeTripleMap(tt.args.a, tt.args.b)
 			if !cmp.Equal(tt.args.a, tt.want) {
-				t.Errorf("margeTripleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
+				t.Errorf("mergeTripleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
 			}
 		})
 	}
 }
 
-func Test_margeQuadrupleMap(t *testing.T) {
+func Test_mergeQuadrupleMap(t *testing.T) {
 	type args struct {
 		a map[string]map[string]map[string]map[string]float64
 		b map[string]map[string]map[string]map[string]float64
@@ -126,9 +126,9 @@ func Test_margeQuadrupleMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			margeQuadrupleMap(tt.args.a, tt.args.b)
+			mergeQuadrupleMap(tt.args.a, tt.args.b)
 			if !cmp.Equal(tt.args.a, tt.want) {
-				t.Errorf("margeTripleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
+				t.Errorf("mergeTripleMap() does not match. got = %v, want = %v", tt.args.a, tt.want)
 			}
 		})
 	}
