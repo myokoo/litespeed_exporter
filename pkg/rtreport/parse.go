@@ -38,7 +38,7 @@ type versionLine string
 func (v versionLine) parse(report *LiteSpeedReport) {
 	lineText := string(v)
 	if len(lineText) < 10 {
-		report.error = createTooShortParseLineError(lineText)
+		report.error = newTooShortParseLineError(lineText)
 		return
 	}
 	s := strings.Split(lineText, "/")
@@ -51,7 +51,7 @@ type uptimeLine string
 func (u uptimeLine) parse(report *LiteSpeedReport) {
 	lineText := string(u)
 	if len(lineText) < 16 {
-		report.error = createTooShortParseLineError(lineText)
+		report.error = newTooShortParseLineError(lineText)
 		return
 	}
 	v := strings.Split(lineText[8:], ":")
@@ -167,6 +167,6 @@ func pickUpStringName(lineText string) []string {
 }
 
 // create parse line too short error.
-func createTooShortParseLineError(s string) error {
+func newTooShortParseLineError(s string) error {
 	return errors.New(fmt.Sprintf("%s: Parsed line too short.", s))
 }
