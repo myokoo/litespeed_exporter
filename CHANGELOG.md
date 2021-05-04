@@ -1,3 +1,11 @@
+## 0.1.5 / 2021-05-04
+## Add
+- Add support for port number in virtual host name
+### Change
+- Correct spelling
+- Use idomatic naming
+- make error messages more clear
+
 ## 0.1.4 / 2019-11-05
 ### Add
 - add 'litespeed_virtual_host_requests_per_sec' metrics
