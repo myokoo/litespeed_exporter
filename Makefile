@@ -11,9 +11,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-GO    := go
-PROMU := $(GOPATH)/bin/promu -v
+
+GO    := GO111MODULE=on go
+PROMU := $(GOPATH)/bin/promu
 pkgs   = $(shell $(GO) list ./...)
+
 
 PREFIX                  ?= $(shell pwd)
 BIN_DIR                 ?= $(shell pwd)
@@ -63,6 +65,8 @@ tarball: promu
 
 promu:
 	@echo ">> get promu tool"
-	$(GO) get -u github.com/prometheus/promu
+	@GOOS=$(shell uname -s | tr A-Z a-z) \
+		GOARCH=$(subst x86_64,amd64,$(patsubst i%86,386,$(shell uname -m))) \
+		$(GO) get -u github.com/prometheus/promu
 
 .PHONY: all style format build cross_build cross_tarball release test vet tarball docker promu
