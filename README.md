@@ -2,6 +2,8 @@
 Prometheus exporter for LiteSpeed server metrics.
 
 ## Building and running
+### Compatibility
+- Go 1.14+
 
 ### Build
 
