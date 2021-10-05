@@ -21,11 +21,11 @@ usage: litespeed_exporter [<flags>]
 Flags:
   -h, --help              Show context-sensitive help (also try --help-long and --help-man).
       --web.listen-address=":9104"
-                          Address to listen on for web interface and telemetry.
+                          Listen address for web interface and telemetry.
       --web.telemetry-path="/metrics"
-                          Path under which to expose metrics.
+                          URL path under which to expose metrics.
       --lsws.report-path="/tmp/lshttpd"
-                          Path under which to exist lsws real-time statistics report.
+                          Filesystem path under which exist lsws real-time statistics reports.
       --log.level="info"  Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal]
       --log.format="logger:stderr"
                           Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
