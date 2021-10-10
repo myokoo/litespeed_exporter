@@ -1,23 +1,27 @@
+## 0.1.6 / 2021-10-05
+### Change
+- Corrected some spelling/grammar
+
 ## 0.1.5 / 2021-05-04
 ## Add
-- Add support for port number in virtual host name
+- Added support for port number in virtual host name
 ### Change
-- Correct spelling
+- Corrected spelling
 - Use idomatic naming
-- make error messages more clear
+- made error messages more clear
 
 ## 0.1.4 / 2019-11-05
 ### Add
-- add 'litespeed_virtual_host_requests_per_sec' metrics
-- add 'litespeed_external_applicationt_requests_per_sec' metrics
+- added 'litespeed_virtual_host_requests_per_sec' metrics
+- added 'litespeed_external_applicationt_requests_per_sec' metrics
 
 ## 0.1.3 / 2019-11-05
 ### Change
-- refact code
+- refactored code
 
 ## 0.1.2 / 2019-08-29
 ### Fixed
-- fix the problem that old metrics data remains
+- fixed a problem where old metrics data remained
 
 ## 0.1.1 / 2019-08-27
 ### Change

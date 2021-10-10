@@ -19,25 +19,25 @@ func (n network) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedR
 		case rtreport.NetworkReportKeyBpsIn:
 			ch <- newMetric(
 				namespace, nName, "throughput",
-				"Current network throughput by schema(http or https).",
+				"Current ingress network throughput (http).",
 				networkLabel, prometheus.GaugeValue, value, "http", "in",
 			)
 		case rtreport.NetworkReportKeyBpsOut:
 			ch <- newMetric(
 				namespace, nName, "throughput",
-				"Current network throughput by schema(http or https).",
+				"Current egress network throughput (http).",
 				networkLabel, prometheus.GaugeValue, value, "http", "out",
 			)
 		case rtreport.NetworkReportKeySslBpsIn:
 			ch <- newMetric(
 				namespace, nName, "throughput",
-				"Current network throughput by schema(http or https).",
+				"Current ingress network throughput (https).",
 				networkLabel, prometheus.GaugeValue, value, "https", "in",
 			)
 		case rtreport.NetworkReportKeySslBpsOut:
 			ch <- newMetric(
 				namespace, nName, "throughput",
-				"Current network throughput by schema(http or https).",
+				"Current egress network throughput (https).",
 				networkLabel, prometheus.GaugeValue, value, "https", "out",
 			)
 		}

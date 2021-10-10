@@ -19,31 +19,31 @@ func (c connection) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSpe
 		case rtreport.ConnectionReportKeyMaxConn:
 			ch <- newMetric(
 				namespace, cName, "max",
-				"The max connection value of server.",
+				"The maximum http connections value of server.",
 				connectionLabel, prometheus.GaugeValue, value, "http",
 			)
 		case rtreport.ConnectionReportKeyMaxConnSsl:
 			ch <- newMetric(
 				namespace, cName, "max",
-				"The max connection value of server.",
+				"The maximum https connections value of server.",
 				connectionLabel, prometheus.GaugeValue, value, "https",
 			)
 		case rtreport.ConnectionReportKeyIdleConn:
 			ch <- newMetric(
 				namespace, cName, "idle",
-				"The idle connection values of server.",
+				"The current idle connections value of server.",
 				nil, prometheus.GaugeValue, value,
 			)
 		case rtreport.ConnectionReportKeyUsedConn:
 			ch <- newMetric(
 				namespace, cName, "used",
-				"The number of using connections to server.",
+				"The current number of used http connections to server.",
 				connectionLabel, prometheus.GaugeValue, value, "http",
 			)
 		case rtreport.ConnectionReportKeyUsedConnSsl:
 			ch <- newMetric(
 				namespace, cName, "used",
-				"The number of using connections to server.",
+				"The current number of used https connections to server.",
 				connectionLabel, prometheus.GaugeValue, value, "https",
 			)
 		}

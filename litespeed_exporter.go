@@ -16,15 +16,15 @@ import (
 var (
 	listenAddress = kingpin.Flag(
 		"web.listen-address",
-		"Address to listen on for web interface and telemetry.",
+		"Listen address for web interface and telemetry.",
 	).Default(":9104").String()
 	metricPath = kingpin.Flag(
 		"web.telemetry-path",
-		"Path under which to expose metrics.",
+		"URL path under which to expose metrics.",
 	).Default("/metrics").String()
 	reportPath = kingpin.Flag(
 		"lsws.report-path",
-		"Path under which to exist lsws real-time statistics report.",
+		"Filesystem path under which exist lsws real-time statistics reports.",
 	).Default(rtreport.DefaultReportPath).String()
 )
 

@@ -15,7 +15,7 @@ const (
 var (
 	errorDesc = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "up"),
-		"Could the realtime report be readed", nil, nil,
+		"Whether the realtime report could be read", nil, nil,
 	)
 	upteimeDesc = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "uptime_seconds_total"),

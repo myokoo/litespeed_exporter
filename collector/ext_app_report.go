@@ -22,25 +22,25 @@ func (e extApp) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedRe
 					case rtreport.ExtAppKeyMaxConn:
 						ch <- newMetric(
 							namespace, eName, "max_connections",
-							"The max connection value of external application.",
+							"The max possible connections value of external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
 					case rtreport.ExtAppKeyEffectiveMaxConn:
 						ch <- newMetric(
 							namespace, eName, "effective_max_connections",
-							"The max effective connection value of external application.",
+							"The max possible effective connections value of external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
 					case rtreport.ExtAppKeyPoolSize:
 						ch <- newMetric(
 							namespace, eName, "pool_size",
-							"The number of pool size by external application.",
+							"The pool size by external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
 					case rtreport.ExtAppKeyInUseConn:
 						ch <- newMetric(
 							namespace, eName, "connection_used",
-							"The number of using connections by external application.",
+							"The number of used connections by external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
 					case rtreport.ExtAppKeyIdleConn:
@@ -58,7 +58,7 @@ func (e extApp) scrape(ch chan<- prometheus.Metric, report *rtreport.LiteSpeedRe
 					case rtreport.ExtAppKeyReqPerSec:
 						ch <- newMetric(
 							namespace, eName, "requests_per_sec",
-							"The total requests per sec by external application.",
+							"The total requests per second by external application.",
 							extAppLabels, prometheus.GaugeValue, value, typeName, vhost, extAppName,
 						)
 					case rtreport.ExtAppKeyReqTotal:
